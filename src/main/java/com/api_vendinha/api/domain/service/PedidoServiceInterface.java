@@ -10,5 +10,5 @@ public interface PedidoServiceInterface {
 
     PedidoResponseDto getPedido(Long id);
 
-    List<Pedido> getAllPedidos();
+    List<PedidoResponseDto> getAllPedidos();
 }

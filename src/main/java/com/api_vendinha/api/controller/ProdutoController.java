@@ -2,7 +2,6 @@ package com.api_vendinha.api.controller;
 
 import com.api_vendinha.api.domain.dtos.request.ProdutoRequestDto;
 import com.api_vendinha.api.domain.dtos.response.ProdutoResponseDto;
-import com.api_vendinha.api.domain.entities.Produto;
 import com.api_vendinha.api.domain.service.ProdutoServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +39,7 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public List<Produto> getAll() {
+    public List<ProdutoResponseDto> getAll() {
         return produtoService.getAll();
     }
 }

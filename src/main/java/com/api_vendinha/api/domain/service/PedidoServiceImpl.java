@@ -69,7 +69,10 @@ public class PedidoServiceImpl implements PedidoServiceInterface{
     }
 
     @Override
-    public List<Pedido> getAllPedidos() { return pedidoRepository.findAll(); }
+    public List<PedidoResponseDto> getAllPedidos() {
+        return pedidoRepository.findAll().stream().map(this::getPedidoResponse).toList();
+    }
+
 
     private PedidoResponseDto getPedidoResponse(Pedido pedido) {
         PedidoResponseDto pedidoResponseDto = new PedidoResponseDto();

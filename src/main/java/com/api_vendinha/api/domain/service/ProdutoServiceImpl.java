@@ -6,8 +6,8 @@ import com.api_vendinha.api.domain.dtos.response.ProdutoResponseDto;
 import com.api_vendinha.api.domain.entities.Produto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+
 
 @Service
 public class ProdutoServiceImpl implements ProdutoServiceInterface {
@@ -20,16 +20,9 @@ public class ProdutoServiceImpl implements ProdutoServiceInterface {
 
     @Override
     public ProdutoResponseDto saveProduto(ProdutoRequestDto produtoRequestDto) {
-
         Produto produto = new Produto();
 
-        produto.setNome(produtoRequestDto.getNome());
-        produto.setQtde(produtoRequestDto.getQtde());
-        produto.setPreco(produtoRequestDto.getPreco());
-
-        Produto savedProduto = produtoRepository.save(produto);
-
-        return getProdutoResponse(savedProduto);
+        return getProdutoResponse(setProdutoAttributes(produto, produtoRequestDto));
     }
 
     @Override
@@ -42,18 +35,24 @@ public class ProdutoServiceImpl implements ProdutoServiceInterface {
     @Override
     public ProdutoResponseDto update(Long id, ProdutoRequestDto produtoRequestDto) {
         Produto produtoExist = produtoRepository.findById(id).orElseThrow();
-        produtoExist.setNome(produtoRequestDto.getNome());
-        produtoExist.setQtde(produtoRequestDto.getQtde());
-        produtoExist.setPreco(produtoRequestDto.getPreco());
 
-        produtoRepository.save(produtoExist);
-
-        return getProdutoResponse(produtoExist);
+        return getProdutoResponse(setProdutoAttributes(produtoExist, produtoRequestDto));
     }
 
     @Override
-    public List<Produto> getAll() {
-        return produtoRepository.findAll();
+    public List<ProdutoResponseDto> getAll() {
+        return produtoRepository.findAll().stream().map(this::getProdutoResponse).toList();
+    }
+
+
+    private Produto setProdutoAttributes(Produto produto, ProdutoRequestDto produtoRequestDto) {
+        produto.setNome(produtoRequestDto.getNome());
+        produto.setQtde(produtoRequestDto.getQtde());
+        produto.setPreco(produtoRequestDto.getPreco());
+
+        produtoRepository.save(produto);
+
+        return produto;
     }
 
     private ProdutoResponseDto getProdutoResponse(Produto produto) {

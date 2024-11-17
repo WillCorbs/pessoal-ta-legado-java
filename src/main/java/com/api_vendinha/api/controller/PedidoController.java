@@ -29,5 +29,5 @@ public class PedidoController {
     }
 
     @GetMapping
-    public List<Pedido> getAllPedidos() { return pedidoService.getAllPedidos(); }
+    public List<PedidoResponseDto> getAllPedidos() { return pedidoService.getAllPedidos(); }
 }
